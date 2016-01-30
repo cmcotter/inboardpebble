@@ -1,6 +1,4 @@
 var UI = require('ui');
-/*var ajax = require('ajax');
-var Vector2 = require('vector2');*/
 var Accel = require('ui/accel');
 var Vibe = require('ui/vibe');
 
@@ -10,6 +8,7 @@ Accel.config.samples = 10;
 var offset = 300;
 
 var cardTitle = 'Skateboard Dashboard';
+
 var rightSignal = new UI.Card({
   title: cardTitle,
   body: 'Right'
@@ -21,7 +20,21 @@ var leftSignal = new UI.Card({
 var defaultDisplay = new UI.Card({
   title: cardTitle,
 });
-var card;
+
+function displayLeft(){
+  Vibe.vibrate('short');
+  leftSignal.show();
+}
+
+function displayRight(){
+  Vibe.vibrate('short');
+  rightSignal.show();
+}
+
+function displayDefault(body){
+  defaultDisplay.body(body);
+  defaultDisplay.show();
+}
 
 Accel.on('data', function(e){
   if (e.accel.x < -1000 + offset && e.accel.y < offset && e.accel.y > -offset&& e.accel.z < offset  && e.accel.z > -offset) {
@@ -34,20 +47,3 @@ Accel.on('data', function(e){
   }
 });
 
-function displayLeft(){
-  card = leftSignal;
-  Vibe.vibrate('short');
-  card.show();
-}
-
-function displayRight(){
-  card = rightSignal;
-  Vibe.vibrate('short');
-  card.show();
-}
-
-function displayDefault(body){
-  card = defaultDisplay;
-  card.body(body);
-  card.show();
-}
