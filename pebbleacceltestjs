@@ -9,10 +9,11 @@ var Accel = require('ui/accel');
 Accel.config.rate = 10;
 Accel.config.samples = 10;
 
-Accel.on('tap', function(e) {
+Accel.on('data', function(e){
   var card = new UI.Card({
-  title:'Acceleration',
-  body: 'X-acceleration: ' + e.accel.x + 'Y-acceleration: '+ e.accel.y + 'Z-acceleration: ' + e.accel.z
-});
+    title:'Acceleration',
+    body:'X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z
+  });
   card.show();
 });
+
