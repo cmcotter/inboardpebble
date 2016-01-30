@@ -1,6 +1,7 @@
 // pebble acceleromater test js
 
 
+
 var UI = require('ui');
 /*var ajax = require('ajax');
 var Vector2 = require('vector2');*/
@@ -10,10 +11,31 @@ Accel.config.rate = 10;
 Accel.config.samples = 10;
 
 Accel.on('data', function(e){
-  var card = new UI.Card({
+  
+  if (e.accel.x < -800 && e.accel.y < 200 && e.accel.z < 200){
+    var card = new UI.Card({
+    title:'Skateboard Dashboard',
+    body: 'Right Signal'
+    });
+}
+  else if (e.accel.x < -800 && e.accel.y < 200 && e.accel.z < 200){
+    var card = new UI.Card({
+    title:'Skateboard Dashboard',
+    body: 'Left Signal'
+    });
+  }
+  else {
+    var card = new UI.Card({
     title:'Acceleration',
     body:'X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z
-  });
+    });
+  }
   card.show();
 });
+
+/*
+var brake = new UI.Card({
+    title:'Skateboard Dashboard',
+    body: 'Brake'
+}); */
 
