@@ -9,41 +9,25 @@ var offset = 300;
 
 var cardTitle = 'Skateboard Dashboard';
 
-var rightSignal = new UI.Card({
+var data;
+
+var display = new UI.Card({
   title: cardTitle,
-  body: 'Right'
-});
-var leftSignal = new UI.Card({
-  title : cardTitle,
-  body : 'Left'
-});
-var defaultDisplay = new UI.Card({
-  title: cardTitle,
+  body : 'Default'
 });
 
-function displayLeft(){
-  Vibe.vibrate('short');
-  leftSignal.show();
-}
-
-function displayRight(){
-  Vibe.vibrate('short');
-  rightSignal.show();
-}
-
-function displayDefault(body){
-  defaultDisplay.body(body);
-  defaultDisplay.show();
-}
 
 Accel.on('data', function(e){
+  data = 'X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z;
   if (e.accel.x < -1000 + offset && e.accel.y < offset && e.accel.y > -offset&& e.accel.z < offset  && e.accel.z > -offset) {
-    displayRight();
+    display.body('Signal: Right\n'+data);
+    Vibe.vibrate('short');
   }
   else if (e.accel.x < offset && e.accel.x > -offset && e.accel.y > 1000 - offset && e.accel.z < offset && e.accel.z > -offset) {
-    displayLeft();
+    display.body('Signal: Left\n'+data);
+    Vibe.vibrate('short');
   } else {
-    displayDefault('X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z);
+    display.body('Signal: Default\n'+data);
   }
+  display.show();
 });
-
