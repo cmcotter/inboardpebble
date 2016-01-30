@@ -1,0 +1,18 @@
+// pebble acceleromater test js
+
+
+var UI = require('ui');
+/*var ajax = require('ajax');
+var Vector2 = require('vector2');*/
+var Accel = require('ui/accel');
+
+Accel.config.rate = 10;
+Accel.config.samples = 10;
+
+Accel.on('tap', function(e) {
+  var card = new UI.Card({
+  title:'Acceleration',
+  body: 'X-acceleration: ' + e.accel.x + 'Y-acceleration: '+ e.accel.y + 'Z-acceleration: ' + e.accel.z
+});
+  card.show();
+});
