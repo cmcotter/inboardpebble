@@ -1,5 +1,5 @@
 //Inboard Pebble Turn Signal Firmware
-//Written for HACKUCSC 2016 
+//Written for HACKUCSC 2016
 
 //Libaries to Include
 #include <SoftwareSerial.h>
@@ -16,8 +16,8 @@
 #define blueTX 9
 
 //Global Variable Declaration
-String signal_status;
 
+//Setup & Initialization
 void setup() {
   //Debug Computer Connection Setup
   Serial.begin(9600);
@@ -25,33 +25,36 @@ void setup() {
 
   //Bluetooth Module Setup
   SoftwareSerial blueSerial(blueRX, blueTX);
+  blueSerial.begin(115200);
 
   //Pin Modes
   pinMode(right_signal_pin, OUTPUT);
   pinMode(left_signal_pin, OUTPUT);
 }
 
+//Main Loop
 void loop() {
-
+  set_led("left");
 }
 
 //Functions
-void
+void set_led(String signal_status) {
 
-if (signal_status == "left") {
-   blink_led(left_signal_pin, time_interval);
-   
+  if (signal_status == "left") {
+    blink_led(left_signal_pin, time_interval);
+
   } else if (signal_status == "right") {
-   blink_led(right_signal_pin, time_interval);
-   
+    blink_led(right_signal_pin, time_interval);
+
   } else if (signal_status == "brake") {
-   analogWrite(left_signal_pin, max_brightness);
-   analogWrite(right_signal_pin, max_brightness);
-   
+    analogWrite(left_signal_pin, max_brightness);
+    analogWrite(right_signal_pin, max_brightness);
+
   } else {
-   digitalWrite(left_signal_pin, idle_brightness);
-   digitalWrite(right_signal_pin, idle_brightness);
+    digitalWrite(left_signal_pin, idle_brightness);
+    digitalWrite(right_signal_pin, idle_brightness);
   }
+}
 
 //Extra Supporting Functions
 void blink_led(int led, int interval)
