@@ -1,37 +1,56 @@
-
 var UI = require('ui');
 /*var ajax = require('ajax');
 var Vector2 = require('vector2');*/
 var Accel = require('ui/accel');
+var Light = require('ui/light');
+var Vibe = require('ui/vibe');
 
 Accel.config.rate = 10;
 Accel.config.samples = 10;
 
+var offset = 200;
+
+var cardTitle = 'Skateboard Dashboard';
+var rightSignal = new UI.Card({
+  title: cardTitle,
+  body: 'Right'
+});
+var leftSignal = new UI.Card({
+  title : cardTitle,
+  body : 'Left'
+});
+var defaultDisplay = new UI.Card({
+  title: cardTitle,
+});
+var card;
+
 Accel.on('data', function(e){
-  
-  if (e.accel.x < -800 && e.accel.y < 200 && e.accel.z < 200){
-    var card = new UI.Card({
-    title:'Skateboard Dashboard',
-    body: 'Right Signal'
-    });
-}
-  else if (e.accel.x < 200 && e.accel.y > 800 && e.accel.z < 200){
-    var card = new UI.Card({
-    title:'Skateboard Dashboard',
-    body: 'Left Signal'
-    });
+  if (e.accel.x < -1000 + offset && e.accel.y < offset && e.accel.y > -offset&& e.accel.z < offset  && e.accel.z > -offset) {
+    displayRight();
   }
-  else {
-    var card = new UI.Card({
-    title:'Acceleration',
-    body:'X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z
-    });
+  else if (e.accel.x < offset && e.accel.x > offset && e.accel.y > 1000 - offset && e.accel.z < offset && e.accel.z > -offset) {
+    displayLeft();
+  } else {
+    displayDefault('X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z);
   }
-  card.show();
 });
 
-/*
-var brake = new UI.Card({
-    title:'Skateboard Dashboard',
-    body: 'Brake'
-}); */
+function displayLeft(){
+  card = leftSignal;
+  Vibe.vibrate('long');
+  Light.on('long');
+  card.show();
+}
+
+function displayRight(){
+  card = rightSignal;
+  Vibe.vibrate('long');
+  Light.on('long');
+  card.show();
+}
+
+function displayDefault(body){
+  card = defaultDisplay;
+  card.body(body);
+  card.show();
+}
