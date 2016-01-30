@@ -51,14 +51,27 @@ void set_led(String signal_status) {
     analogWrite(right_signal_pin, max_brightness);
 
   } else {
-    digitalWrite(left_signal_pin, idle_brightness);
-    digitalWrite(right_signal_pin, idle_brightness);
+    analogWrite(left_signal_pin, idle_brightness);
+    analogWrite(right_signal_pin, idle_brightness);
   }
 }
 
 //Extra Supporting Functions
 void blink_led(int led, int interval)
 {
-  //code goes here
+  unsigned long currentMillis = millis();
+  unsigned long previousMillis = 0;
+  int state;
+
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    
+    if (state == max_brightness)  {
+      state == max_brightness;
+    } else {
+      state == idle_brightness;
+    }
+  }
+  analogWrite(led, state);
 }
 
