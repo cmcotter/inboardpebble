@@ -2,7 +2,6 @@ var UI = require('ui');
 /*var ajax = require('ajax');
 var Vector2 = require('vector2');*/
 var Accel = require('ui/accel');
-var Light = require('ui/light');
 var Vibe = require('ui/vibe');
 
 Accel.config.rate = 10;
@@ -28,7 +27,7 @@ Accel.on('data', function(e){
   if (e.accel.x < -1000 + offset && e.accel.y < offset && e.accel.y > -offset&& e.accel.z < offset  && e.accel.z > -offset) {
     displayRight();
   }
-  else if (e.accel.x < offset && e.accel.x > offset && e.accel.y > 1000 - offset && e.accel.z < offset && e.accel.z > -offset) {
+  else if (e.accel.x < offset && e.accel.x > -offset && e.accel.y > 1000 - offset && e.accel.z < offset && e.accel.z > -offset) {
     displayLeft();
   } else {
     displayDefault('X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z);
@@ -38,14 +37,12 @@ Accel.on('data', function(e){
 function displayLeft(){
   card = leftSignal;
   Vibe.vibrate('long');
-  Light.on('long');
   card.show();
 }
 
 function displayRight(){
   card = rightSignal;
   Vibe.vibrate('long');
-  Light.on('long');
   card.show();
 }
 
