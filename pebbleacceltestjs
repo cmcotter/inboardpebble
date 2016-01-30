@@ -7,7 +7,7 @@ var Vibe = require('ui/vibe');
 Accel.config.rate = 10;
 Accel.config.samples = 10;
 
-var offset = 200;
+var offset = 300;
 
 var cardTitle = 'Skateboard Dashboard';
 var rightSignal = new UI.Card({
@@ -36,13 +36,13 @@ Accel.on('data', function(e){
 
 function displayLeft(){
   card = leftSignal;
-  Vibe.vibrate('long');
+  Vibe.vibrate('short');
   card.show();
 }
 
 function displayRight(){
   card = rightSignal;
-  Vibe.vibrate('long');
+  Vibe.vibrate('short');
   card.show();
 }
 
