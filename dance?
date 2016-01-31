@@ -1,0 +1,60 @@
+// different direction
+
+var UI = require('ui');
+var Accel = require('ui/accel');
+var Vibe = require('ui/vibe');
+
+Accel.config.rate = 10;
+Accel.config.samples = 10;
+
+var offset = 300;
+
+var cardTitle = 'Skateboard Dashboard';
+
+var direction;
+var data;
+
+var display = new UI.Card({
+  title: cardTitle,
+  body : 'Default'
+});
+
+
+Accel.on('data', function(e){
+  data = 'X axis: ' + e.accel.x + '\nY axis: ' + e.accel.y + '\nZ axis: ' + e.accel.z;
+  if (e.accel.x < -1000 + offset && e.accel.y < offset && e.accel.y > -offset&& e.accel.z < offset  && e.accel.z > -offset) {
+    direction = 'up';
+    display.body('Signal: Right\n'+data);
+    Vibe.vibrate('short');
+  }
+  else if (e.accel.x < offset && e.accel.x > -offset && e.accel.y > 1000 - offset && e.accel.z < offset && e.accel.z > -offset) {
+    direction = 'left'; 
+    display.body('Signal: Left\n'+data);
+    Vibe.vibrate('short');
+  }else if (e.accel.x < offset && e.accel.x > -offset && e.accel.y < -1000 + offset && e.accel.z < offset && e.accel.z > -offset) {
+    direction = 'right';
+    display.body('Signal: Up\n'+data);
+    Vibe.vibrate('short');
+  }
+  else if(e.accel.x > 1000 - offset && e.accel.x > -offset && e.accel.y > 1000 - offset && e.accel.z < offset && e.accel.z > -offset){
+    direction = 'down';
+    display.body('Signal: down\n'+data);
+    Vibe.vibrate('short');
+  }
+  else{
+    display.body(data);
+  }
+  display.show();
+});
+
+var transactionId = Pebble.sendAppMessage( { '0': direction },
+  function(e) {
+    console.log('Successfully delivered message with transactionId='
+      + e.data.transactionId);
+  },
+  function(e) {
+    console.log('Unable to deliver message with transactionId='
+      + e.data.transactionId
+      + ' Error is: ' + e.error.message);
+  }
+);
